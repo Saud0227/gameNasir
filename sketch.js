@@ -15,15 +15,18 @@ const moveDiagonal=14;
 //
 
 let dataFile;
+let nasirCatGirl;
 
 
 function preload(){
   //dataFile = loadJSON("level1.json");
   dataFile = loadJSON("level1.json");
+  nasirCatGirl = loadImage('nasirCatSq.png');
+
 }
 
 function setup() {
-  createCanvas(520,520);
+  createCanvas(820,820);
 
   for(let i = 0; i< dataFile.VlistLen; i++){
     unWalkableX[i] = dataFile.xList[i];
@@ -31,14 +34,13 @@ function setup() {
   }
 
   let sP = createVector(10,10);
-  grid1=new grid(dataFile.xS,dataFile.yS,25,sP,pNode)
+  grid1=new grid(dataFile.xS,dataFile.yS,40,sP,pNode)
   grid1.gDebug=false;
 
   let playerSPos=grid1.getWPos(dataFile.pSpawnX,dataFile.pSpawnY);
-  player=new actor(playerSPos.x+grid1.sqSize*0.5,playerSPos.y+grid1.sqSize*0.5,3,createVector(0,0,255));
+  player=new actor(playerSPos.x+grid1.sqSize*0.5,playerSPos.y+grid1.sqSize*0.5,5,40,createVector(0,0,255),nasirCatGirl);
   let botAiSP = grid1.getWPos(11,19)
-  bot = new actor(botAiSP.x+grid1.sqSize*0.5,botAiSP.y+grid1.sqSize*0.5,5,createVector(255,0,0))
-
+  bot = new actor(botAiSP.x+grid1.sqSize*0.5,botAiSP.y+grid1.sqSize*0.5,6,15,createVector(255,0,0))
 
 }
 
@@ -53,7 +55,12 @@ function draw() {
     player.update();
     aiUpdate();
   }
-
+  pcp = grid1.getSqIndex(player.pos.x,player.pos.y)
+  bcp = grid1.getSqIndex(bot.pos.x,bot.pos.y)
+  if(gameActive && pcp.x == bcp.x && pcp.y == bcp.y && !(!pcp || !bcp)){
+    gameActive = false;
+    print("!")
+  }
 }
 
 
@@ -71,7 +78,7 @@ function mousePressed(){
       showPath=[];
       player.walkTo=[];
       for (let i = 0; i < returnP.length; i++) {
-        showPath[i]=createVector(returnP[i].x,returnP[i].y);
+        //showPath[i]=createVector(returnP[i].x,returnP[i].y);
         let tempV = createVector(grid1.getWPos(returnP[i].x,returnP[i].y).x+grid1.sqSize*0.5,grid1.getWPos(returnP[i].x,returnP[i].y).y+grid1.sqSize*0.5);
 
         player.addWalkPos(tempV);
