@@ -61,6 +61,13 @@ function draw() {
     gameActive = false;
     print("!")
   }
+  if(!gameActive){
+    textSize(100)
+    textAlign(CENTER,CENTER);
+    fill(0,255,0)
+    text("DU VANN",width/2,height/4)
+    image(nasirCatGirl, width/2-250,height/3*2-250,500,500)
+  }
 }
 
 
