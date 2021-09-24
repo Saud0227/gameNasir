@@ -4,7 +4,7 @@ let unWalkableX=[];
 let unWalkableY=[];
 
 let player,bot;
-let bTick = 200,bTickD = bTick;
+let bTick = 100,bTickD = bTick;
 
 //pFindingVariablesGlobal
 const moveStraight=10;
@@ -34,9 +34,9 @@ function setup() {
   grid1.gDebug=false;
 
   let playerSPos=grid1.getWPos(dataFile.pSpawnX,dataFile.pSpawnY);
-  player=new actor(playerSPos.x+grid1.sqSize*0.5,playerSPos.y+grid1.sqSize*0.5);
+  player=new actor(playerSPos.x+grid1.sqSize*0.5,playerSPos.y+grid1.sqSize*0.5,createVector(0,0,255));
   let botAiSP = grid1.getWPos(11,19)
-  bot = new actor(botAiSP.x+grid1.sqSize*0.5,botAiSP.y+grid1.sqSize*0.5)
+  bot = new actor(botAiSP.x+grid1.sqSize*0.5,botAiSP.y+grid1.sqSize*0.5,createVector(255,0,0))
 
 
 }
@@ -48,6 +48,7 @@ function draw() {
   rectMode(CORNER);
   grid1.drawG();
   player.update();
+  bot.update();
   aiUpdate();
 
 
@@ -55,7 +56,7 @@ function draw() {
 
 
 
-/* 
+/*
 function mousePressed(){
   let pPos = grid1.getSqIndex(mouseX,mouseY);
 
@@ -89,28 +90,33 @@ function aiUpdate(){
   if(bTickD > bTick){
     bTickD = int(random(-bTick/4,bTick/4));
     let cPos = grid1.getSqIndex(bot.pos.x,bot.pos.y)
-    if(cPos == false){
-      bTickD = 0;
-      //break;
-    }
+    if(cPos != false){
 
-    let target = false;
-    let targetCords = createVector(0,0)
-    while (target == false){
-      targetCords.set(int(random(0,grid1.xLen)),int(random(0,grid1.yLen)));
-      target = grid1.checkSize(targetCords.x,targetCords.y) && (() => {
+
+      let target = false;
+      let targetCords = createVector(0,0)
+      while (target == false){
+        targetCords.set(int(random(0,grid1.xLen)),int(random(0,grid1.yLen)));
+        checkPathf = true;
         for (let i = 0; i < unWalkableX.length; i++) {
-          if(targetCords.x == unWalkableX[i] && targetcords.y == unWalkableY[i]){
-            return false;
+          if(targetCords.x == unWalkableX[i] && targetCords.y == unWalkableY[i]){
+            checkPathf = false;
           }
-          
         }
-        return true;
-      })
-    }
-    let nPath = pFind(cPos.x,cPos.y,targetCords.x,targetCords.y,grid1,unWalkableX.unWalkableY)
-    if(nPath != null){
 
+        target = grid1.checkSize(targetCords.x,targetCords.y) && checkPathf;
+      }
+      let nPath = pFind(cPos.x,cPos.y,targetCords.x,targetCords.y,grid1,unWalkableX,unWalkableY)
+      if(nPath != null){
+        bot.walkTo=[];
+        for (let i = 0; i < nPath.length; i++) {
+          let tempV = createVector(grid1.getWPos(nPath[i].x,nPath[i].y).x+grid1.sqSize*0.5,grid1.getWPos(nPath[i].x,nPath[i].y).y+grid1.sqSize*0.5);
+
+          bot.addWalkPos(tempV);
+        }
+        }
+    }else{
+      bTickD = bTick;
     }
   }else{bTickD++;}
 }

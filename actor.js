@@ -1,11 +1,11 @@
 class actor{
 
-  constructor(x,y){
+  constructor(x,y,_cV){
     this.pos=createVector(x,y);
     this.posDelta=createVector(0,0);
     this.speed=3;
     this.size=15;
-    this.rgb=createVector(0,0,255);
+    this.rgb=_cV;
     this.walkTo=[];
 
   }

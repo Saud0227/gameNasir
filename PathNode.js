@@ -82,7 +82,7 @@ function pFind(x1,y1,x2,y2,grid,unPFindX,unPFindY) {
     }
   }
   //out of options
-  print("No path");
+  print("No path",x2,y2);
   return(null);
 }
 
