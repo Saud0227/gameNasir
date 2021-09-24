@@ -1,12 +1,15 @@
 class actor{
 
-  constructor(x,y,_cV){
+  constructor(x,y,s,_cV,img = null){
     this.pos=createVector(x,y);
     this.posDelta=createVector(0,0);
-    this.speed=3;
+    this.speed=s;
     this.size=15;
     this.rgb=_cV;
     this.walkTo=[];
+    if(img != null){
+      this.img = img
+    }
 
   }
 
