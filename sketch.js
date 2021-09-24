@@ -4,6 +4,7 @@ let unWalkableX=[];
 let unWalkableY=[];
 
 let player,bot;
+let gameActive = true;
 let bTick = 100,bTickD = bTick;
 
 //pFindingVariablesGlobal
@@ -34,9 +35,9 @@ function setup() {
   grid1.gDebug=false;
 
   let playerSPos=grid1.getWPos(dataFile.pSpawnX,dataFile.pSpawnY);
-  player=new actor(playerSPos.x+grid1.sqSize*0.5,playerSPos.y+grid1.sqSize*0.5,createVector(0,0,255));
+  player=new actor(playerSPos.x+grid1.sqSize*0.5,playerSPos.y+grid1.sqSize*0.5,3,createVector(0,0,255));
   let botAiSP = grid1.getWPos(11,19)
-  bot = new actor(botAiSP.x+grid1.sqSize*0.5,botAiSP.y+grid1.sqSize*0.5,createVector(255,0,0))
+  bot = new actor(botAiSP.x+grid1.sqSize*0.5,botAiSP.y+grid1.sqSize*0.5,5,createVector(255,0,0))
 
 
 }
@@ -47,16 +48,17 @@ function draw() {
 
   rectMode(CORNER);
   grid1.drawG();
-  player.update();
-  bot.update();
-  aiUpdate();
-
+  if(gameActive){
+    bot.update();
+    player.update();
+    aiUpdate();
+  }
 
 }
 
 
 
-/*
+
 function mousePressed(){
   let pPos = grid1.getSqIndex(mouseX,mouseY);
 
@@ -83,7 +85,7 @@ function mousePressed(){
 
 
 }
- */
+ 
 
 
 function aiUpdate(){
