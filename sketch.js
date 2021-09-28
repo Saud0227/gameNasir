@@ -20,8 +20,8 @@ let nasirCatGirl;
 
 function preload(){
   //dataFile = loadJSON("level1.json");
-  dataFile = loadJSON("level1.json");
-  nasirCatGirl = loadImage('nasirCatSq.png');
+  dataFile = loadJSON("assets/level1.json");
+  nasirCatGirl = loadImage('assets/nasirCatSq.png');
 
 }
 
